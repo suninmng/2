@@ -1,0 +1,151 @@
+Mobile Application Programs
+1.Three UI Layout and Intent AndroidManifest.xml: <?xml version="1.0" encoding="utf-8"?> <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.threeuiandintent"> <application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/Theme.ThreeUIandIntent"> <activity android:name=".MainActivity" android:exported="true"> <intent-filter> <action android:name="android.intent.action.MAIN" /> <category android:name="android.intent.category.LAUNCHER" /> </intent-filter> </activity> <activity android:name=".academic" android:exported="true"> </activity> <activity android:name=".personal" android:exported="true"> </activity> </application> </manifest>
+MainActivity,java:
+package com.example.threeuiandintent; import androidx.appcompat.app.AppCompatActivity; import android.content.Intent; import android.os.Bundle; import android.view.View; import android.widget.Button;
+public class MainActivity extends AppCompatActivity { Button bp, ba; Intent personal, academic; @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); bp = findViewById(R.id.bper); ba = findViewById(R.id.baca); bp.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { personal = new Intent(getBaseContext(), personal.class); startActivity(personal); } }); ba.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { academic = new Intent(getBaseContext(), academic.class); startActivity(academic); } }); } }
+Academic.java:
+package com.example.threeuiandintent; import androidx.appcompat.app.AppCompatActivity; import android.content.Intent; import android.os.Bundle; import android.view.View; import android.widget.Button; public class academic extends AppCompatActivity { Button b; Intent main; @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(R.layout.activity_academic); b=(Button)findViewById(R.id.bahome); b.setOnClickListener(new View.OnClickListener() {
+@Override public void onClick(View v) { main = new Intent(getBaseContext(), MainActivity.class); startActivity(main); } }); } }
+Personal.java: package com.example.threeuiandintent; import androidx.appcompat.app.AppCompatActivity; import android.content.Intent; import android.os.Bundle; import android.view.View; import android.widget.Button; public class personal extends AppCompatActivity { Button b; Intent main; @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(R.layout.activity_personal); b = (Button) findViewById(R.id.bphome); b.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { main = new Intent(getBaseContext(), MainActivity.class); startActivity(main); } }); } }
+
+
+3.Layout Mangers and Event Listener
+MainActivity.java: package com.example.pg3; import androidx.appcompat.app.AppCompatActivity; import androidx.core.view.GestureDetectorCompat; import android.view.GestureDetector; import android.view.MotionEvent; import android.widget.Toast; import android.os.Bundle;
+public class MainActivity extends AppCompatActivity { private GestureDetectorCompat mGestureDetector; private class GestureListener extends GestureDetector.SimpleOnGestureListener { @Override public boolean onSingleTapConfirmed(MotionEvent e) { Toast.makeText(MainActivity.this,"onSingleTapConfirmed",Toast.LENGTH_SHORT) .show(); setContentView(R.layout.layoutone); return super.onSingleTapConfirmed(e); } @Override public boolean onDoubleTap(MotionEvent e) { Toast.makeText(MainActivity.this,"onDoubleTap",Toast.LENGTH_SHORT).show(); setContentView(R.layout.layouttwo); return super.onDoubleTap(e); } } public boolean onTouchEvent(MotionEvent event) { mGestureDetector.onTouchEvent(event); return super.onTouchEvent(event); } @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); mGestureDetector = new GestureDetectorCompat(this, new GestureListener()); } }
+
+
+4.Tourist Place and ListView
+MainActivity.java : package com.example.tourist; import androidx.appcompat.app.AppCompatActivity; import android.os.Bundle; import android.view.View; import android.widget.AdapterView; import android.widget.ArrayAdapter; import android.widget.ListView; import android.widget.Toast; public class MainActivity extends AppCompatActivity {
+ListView simpleList; String touristplaces[] = {"Bangalore", "Coorg", "Mysore", "Gokarna", "Madikeri", "Hampi", "Shimoga"}; @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); simpleList = (ListView)findViewById(R.id.simpleListView); ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_listview, R.id.textView, touristplaces); simpleList.setAdapter(arrayAdapter); simpleList.setOnItemClickListener((parent, view, position, id) -> { String s=(String)parent.getItemAtPosition(position); Toast.makeText(getBaseContext(),"You Have Selected " + s,Toast.LENGTH_LONG).show(); } ); } }
+
+
+6.Calculator
+MainActivity.java: package com.example.calc; import androidx.appcompat.app.AppCompatActivity; import android.os.Bundle; import android.view.View; import android.widget.Button; import android.widget.EditText; import android.widget.TextView; public class MainActivity extends AppCompatActivity { TextView res; EditText n1,n2; Button ba,bs,bm,bd; double val1,val2,r; @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); res=(TextView)findViewById(R.id.result); n1=(EditText)findViewById(R.id.e1);
+n2=(EditText)findViewById(R.id.e2); ba=(Button)findViewById(R.id.badd); bs=(Button)findViewById(R.id.bsub); bm=(Button)findViewById(R.id.bmul); bd=(Button)findViewById(R.id.bdiv); ba.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { val1=Double.parseDouble(n1.getText().toString()); val2=Double.parseDouble(n2.getText().toString()); r=val1+val2; res.setText(Double.toString(r)); } }); bs.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { val1=Double.parseDouble(n1.getText().toString()); val2=Double.parseDouble(n2.getText().toString()); r=val1-val2; res.setText(Double.toString(r)); } }); bm.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { val1=Double.parseDouble(n1.getText().toString()); val2=Double.parseDouble(n2.getText().toString()); r=val1*val2; res.setText(Double.toString(r)); } }); bd.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { val1=Double.parseDouble(n1.getText().toString()); val2=Double.parseDouble(n2.getText().toString()); r=val1/val2; res.setText(Double.toString(r)); } }); } }
+
+
+7.Shapes
+MainActivity.java:
+package com.example.shapes; import androidx.appcompat.app.AppCompatActivity; import android.content.Context; import android.graphics.Canvas; import android.graphics.Color; import android.graphics.Paint; import android.os.Bundle; import android.view.View; public class MainActivity extends AppCompatActivity { @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(new myView(this)); } private static class myView extends View { Paint myPaint; public myView(Context context) { super(context); init(); } private void init() { myPaint = new Paint(); myPaint.setColor(Color.BLUE); myPaint.setStyle(Paint.Style.FILL_AND_STROKE); myPaint.setStrokeWidth(7); } @Override protected void onDraw(Canvas canvas) { super.onDraw(canvas); canvas.drawRect(400, 200, 650, 450, myPaint); canvas.drawCircle(200, 350, 150, myPaint); canvas.drawRect(50, 750, 200, 950, myPaint); canvas.drawLine(520, 850, 520, 950, myPaint); } } }
+
+
+8.Database
+MainActivity.java: package com.example.db8prg; import androidx.appcompat.app.AppCompatActivity; import android.app.AlertDialog.Builder; import android.content.Context; import android.database.Cursor; import android.database.sqlite.SQLiteDatabase; import android.os.Bundle; import android.view.View; import android.widget.Button; import android.widget.EditText; public class MainActivity extends AppCompatActivity implements android.view.View.OnClickListener { EditText Rollno,Name,Marks; Button Insert,Delete,Update,View,ViewAll; SQLiteDatabase db; @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); Rollno=(EditText)findViewById(R.id.Rollno); Name=(EditText)findViewById(R.id.Name); Marks=(EditText)findViewById(R.id.Marks); Insert=(Button)findViewById(R.id.Insert); Delete=(Button)findViewById(R.id.Delete); Update=(Button)findViewById(R.id.Update); View=(Button)findViewById(R.id.View); ViewAll=(Button)findViewById(R.id.ViewAll); Insert.setOnClickListener(this); Delete.setOnClickListener(this); Update.setOnClickListener(this); View.setOnClickListener(this); ViewAll.setOnClickListener(this); // Creating database and table db=openOrCreateDatabase("StudentDB", Context.MODE_PRIVATE, null); db.execSQL("CREATE TABLE IF NOT EXISTS student(rollno INT PRIMARY KEY,name VARCHAR,marks VARCHAR);"); } public void onClick(View view) { // Inserting a record to the Student table if(view==Insert) { // Checking for empty fields if(Rollno.getText().toString().trim().length()==0||
+Name.getText().toString().trim().length()==0|| Marks.getText().toString().trim().length()==0) { showMessage("Error", "Please enter all values"); return; } db.execSQL("INSERT INTO student VALUES('"+Rollno.getText()+"','"+Name.getText()+ "','"+Marks.getText()+"');"); showMessage("Success", "Record added"); clearText(); } // Deleting a record from the Student table if(view==Delete) { // Checking for empty roll number if(Rollno.getText().toString().trim().length()==0) { showMessage("Error", "Please enter Rollno"); return; } Cursor c=db.rawQuery("SELECT * FROM student WHERE rollno='"+Rollno.getText()+"'", null); if(c.moveToFirst()) { db.execSQL("DELETE FROM student WHERE rollno='"+Rollno.getText()+"'"); showMessage("Success", "Record Deleted"); } else { showMessage("Error", "Invalid Rollno"); } clearText(); } // Updating a record in the Student table if(view==Update) { // Checking for empty roll number if(Rollno.getText().toString().trim().length()==0) { showMessage("Error", "Please enter Rollno"); return; } Cursor c=db.rawQuery("SELECT * FROM student WHERE rollno='"+Rollno.getText()+"'", null); if(c.moveToFirst()) { db.execSQL("UPDATE student SET name='" + Name.getText() + "',marks='" + Marks.getText() + "' WHERE rollno='"+Rollno.getText()+"'"); showMessage("Success", "Record Modified"); } else {
+showMessage("Error", "Invalid Rollno"); } clearText(); } // Display a record from the Student table if(view==View) { // Checking for empty roll number if(Rollno.getText().toString().trim().length()==0) { showMessage("Error", "Please enter Rollno"); return; } Cursor c=db.rawQuery("SELECT * FROM student WHERE rollno='"+Rollno.getText()+"'", null); if(c.moveToFirst()) { Name.setText(c.getString(1)); Marks.setText(c.getString(2)); } else { showMessage("Error", "Invalid Rollno"); clearText(); } } // Displaying all the records if(view==ViewAll) { Cursor c=db.rawQuery("SELECT * FROM student", null); if(c.getCount()==0) { showMessage("Error", "No records found"); return; } StringBuffer buffer=new StringBuffer(); while(c.moveToNext()) { buffer.append("Rollno: "+c.getString(0)+"\n"); buffer.append("Name: "+c.getString(1)+"\n"); buffer.append("Marks: "+c.getString(2)+"\n\n"); } showMessage("Student Details", buffer.toString()); } } public void showMessage(String title,String message) { Builder builder=new Builder(this); builder.setCancelable(true); builder.setTitle(title); builder.setMessage(message);
+builder.show(); } public void clearText() { Rollno.setText(""); Name.setText(""); Marks.setText(""); Rollno.requestFocus(); } }
+
+
+9.MultiThreading
+MainActivity.java: package com.example.multithreadprg9; import androidx.appcompat.app.AppCompatActivity; import android.media.MediaPlayer; import android.os.Bundle; import android.view.View; public class MainActivity extends AppCompatActivity { MediaPlayer mp; @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); mp = MediaPlayer.create(getBaseContext(),R.raw.music); } public void mplay(View v) { mp.start(); } public void mpause(View v) { mp.pause(); } public void mstop(View v) { mp.stop(); mp = MediaPlayer.create(getBaseContext(),R.raw.music); } }
+
+SplashActivity.java:
+package com.example.multithreadprg9; import androidx.appcompat.app.AppCompatActivity; import android.content.Intent; import android.os.Bundle;
+public class Splashactivity extends AppCompatActivity { @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(R.layout.activity_splashactivity); Thread t = new Thread() { public void run() { try { Thread.sleep(5000); } catch(InterruptedException e) { e.printStackTrace(); } finally{ Intent i = new Intent(Splashactivity.this, MainActivity.class); startActivity(i); } } }; t.start(); } }
+
+
+13.Alarm Clock 
+AndroidManifest.xml: <?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+package="com.example.alarm">
+<application
+android:allowBackup="true"
+android:icon="@mipmap/ic_launcher"
+android:label="@string/app_name"
+android:roundIcon="@mipmap/ic_launcher_round"
+android:supportsRtl="true"
+android:theme="@style/Theme.Alarm">
+<activity
+android:name=".MainActivity"
+android:exported="true"
+tools:ignore="Instantiatable">
+<intent-filter>
+<action android:name="android.intent.action.MAIN" />
+<category android:name="android.intent.category.LAUNCHER" />
+</intent-filter>
+</activity>
+<activity android:name=".Alarm"
+tools:ignore="Instantiatable" />
+<receiver android:name=".Alarm"></receiver>
+</application>
+<uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
+</manifest>
+MainActivity.java : package com.example.alarm;
+import static android.content.Context.ALARM_SERVICE;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.view.View;
+import android.widget.TimePicker;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+import java.util.Calendar;
+public class MainActivity extends AppCompatActivity {
+TimePicker alarmTimePicker;
+PendingIntent pendingIntent;
+AlarmManager alarmManager;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+alarmTimePicker = findViewById(R.id.timePicker);
+alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+}
+public void OnToggleClicked(View view) {
+long time;
+if (((ToggleButton) view).isChecked()) {
+Toast.makeText(MainActivity.this, "ALARM ON", Toast.LENGTH_SHORT).show();
+// Set calendar to the current time
+Calendar calendar = Calendar.getInstance();
+calendar.set(Calendar.HOUR_OF_DAY, alarmTimePicker.getCurrentHour());
+calendar.set(Calendar.MINUTE, alarmTimePicker.getCurrentMinute());
+Intent intent = new Intent(MainActivity.this, Alarm.class);
+pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent,
+PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+// Set the alarm time
+time = (calendar.getTimeInMillis() - (calendar.getTimeInMillis() % 60000));
+if (System.currentTimeMillis() > time) {
+if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
+time += 1000 * 60 * 60 * 12; // Add 12 hours if AM
+} else {
+time += 1000 * 60 * 60 * 24; // Add 24 hours if PM
+}
+}
+// Set repeating alarm
+alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, 10000, pendingIntent);
+} else {
+alarmManager.cancel(pendingIntent);
+Toast.makeText(MainActivity.this, "ALARM OFF", Toast.LENGTH_SHORT).show();
+}
+}
+}
+
+Alarm.java :
+package com.example.alarm;
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.widget.Toast;
+public class Alarm extends BroadcastReceiver {
+@Override
+public void onReceive(Context context, Intent intent) {
+Toast.makeText(context, "Alarm! Wake up! Wake up!", Toast.LENGTH_LONG).show();
+Uri alarmUri =
+RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+if (alarmUri == null)
+{
+alarmUri =
+RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+}
+Ringtone ringtone = RingtoneManager.getRingtone(context, alarmUri);
+ringtone.play();
+}
+}
